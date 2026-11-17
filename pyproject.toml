@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "termscape"
+dynamic = ["version"]
+description = "Ambient ASCII scenes for your terminal, full-screen or as a strip under your work"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["terminal", "ascii", "ascii-art", "animation", "tmux", "curses"]
+classifiers = [
+    "Environment :: Console :: Curses",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Terminals",
+    "Topic :: Artistic Software",
+]
+
+[project.scripts]
+termscape = "termscape.cli:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "termscape.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+termscape = ["themes/*.toml"]

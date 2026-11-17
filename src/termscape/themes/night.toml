@@ -1,0 +1,257 @@
+name = "night"
+description = "City skyline under a starry sky: meteors, satellites, a UFO, the odd rocket"
+
+[sky]
+chars = [" ", ".", "+", "*"]
+colors = ["white", "white dim", "white", "yellow bold"]
+density = 0.04
+
+# Buildings. Every '.' and '#' inside a tile is a window that the lights
+# below switch on and off; '*' on top of an antenna blinks.
+[ground]
+height = 0.35
+gap = [0, 2]
+color = "blue"
+colors = { "*" = "red bold", "+" = "red dim" }
+blink = { "*" = "+" }
+lights = { on = "#", off = ".", on_color = "yellow bold", off_color = "blue dim", ratio = 0.35, rate = 3 }
+
+[[ground.tile]]
+art = "|. . .|"
+
+[[ground.tile]]
+art = '''
+ ____
+|.  .|
+'''
+
+[[ground.tile]]
+art = '''
+ _______
+|. . . .|
+'''
+
+[[ground.tile]]
+art = '''
+ ______
+|. . . |
+|. . . |
+'''
+
+[[ground.tile]]
+art = '''
+   *
+ __|___
+|. . . |
+'''
+
+[[ground.tile]]
+art = '''
+ __________
+|. . . . . |
+|. . . . . |
+|. . . . . |
+'''
+
+[[ground.tile]]
+art = '''
+     *
+     |
+ ____|____
+|. . . . .|
+|. . . . .|
+|. . . . .|
+'''
+
+[[ground.tile]]
+art = '''
+    ____
+   |. . |
+ __|. . |__
+|. . . . . |
+|. . . . . |
+|. . . . . |
+|. . . . . |
+'''
+
+[[ground.tile]]
+art = '''
+      *
+      |
+   ___|___
+  |. . . .|
+  |. . . .|
+ _|. . . .|_
+|. . . . . .|
+|. . . . . .|
+|. . . . . .|
+'''
+
+# Actors are drawn in file order within their layer, so the moon goes first.
+
+[[actor]]
+name = "moon"
+motion = "static"
+only = "full"
+layer = "back"
+x = [0.55, 0.85]
+y = 0.02
+color = "yellow bold"
+art = '''
+  _..._
+.:::::::.
+:::::::::
+:::::::::
+`:::::::'
+  `'-'`
+'''
+
+[[actor]]
+name = "moon-small"
+motion = "static"
+only = "strip"
+layer = "back"
+x = [0.55, 0.85]
+color = "yellow bold"
+art = "(@)"
+
+[[actor]]
+name = "cloud"
+only = "full"
+layer = "back"
+speed = [0.8, 2]
+rate = 0.03
+max = 4
+start = 2
+y = [0.05, 0.4]
+color = "white dim"
+art = '''
+    .--.
+ .-(    ).
+(___.__)__)
+'''
+
+[[actor]]
+name = "cloud-small"
+only = "strip"
+layer = "back"
+speed = [0.8, 2]
+rate = 0.03
+max = 2
+start = 1
+y = [0, 0.5]
+color = "white dim"
+art = '''
+ .--.
+(____)
+'''
+
+[[actor]]
+name = "rocket"
+motion = "rise"
+only = "full"
+layer = "back"
+speed = 3
+accel = 6
+rate = 0.02
+max = 1
+x = [0.05, 0.95]
+fps = 8
+color = "white bold"
+colors = { "(" = "cyan bold", ")" = "cyan bold", "^" = "red bold", "*" = "yellow bold", "'" = "yellow" }
+frames = ['''
+  /\
+ /  \
+ |()|
+ |  |
+/|__|\
+  ^^
+  ''
+''', '''
+  /\
+ /  \
+ |()|
+ |  |
+/|__|\
+  **
+  ^^
+''']
+
+[[actor]]
+name = "rocket-small"
+motion = "rise"
+only = "strip"
+layer = "back"
+speed = 1
+accel = 2
+rate = 0.02
+max = 1
+x = [0.05, 0.95]
+fps = 8
+color = "white bold"
+colors = { "*" = "red bold", "^" = "yellow bold" }
+frames = ['''
+/\
+||
+**
+''', '''
+/\
+||
+^^
+''']
+
+[[actor]]
+name = "satellite"
+speed = [3, 6]
+rate = 0.05
+max = 2
+y = [0, 0.25]
+color = "cyan"
+blink = { "o" = "*" }
+art = "[=]-o-[=]"
+
+[[actor]]
+name = "ufo"
+only = "full"
+speed = [6, 12]
+rate = 0.04
+max = 1
+y = [0.1, 0.4]
+bob = 0.8
+fps = 4
+color = "green bold"
+colors = { "*" = "yellow bold" }
+frames = ['''
+    _.---._
+  .'  o o  '.
+ (___________)
+   *   .   *
+''', '''
+    _.---._
+  .'  o o  '.
+ (___________)
+   .   *   .
+''']
+
+[[actor]]
+name = "ufo-small"
+only = "strip"
+speed = [6, 12]
+rate = 0.04
+max = 1
+y = [0, 0.6]
+color = "green bold"
+blink = { "=" = "-" }
+art = "<=(o)=>"
+
+[[actor]]
+name = "meteor"
+motion = "streak"
+speed = [40, 70]
+slope = [0.2, 0.4]
+rate = 0.35
+max = 5
+color = "yellow bold"
+art = "*"
+trail = ["=", "=", "-", "-", "-", "-", "."]
+trail_color = ["white bold", "white bold", "white", "white", "white", "white", "white dim"]

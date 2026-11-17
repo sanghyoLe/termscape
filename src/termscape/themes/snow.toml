@@ -1,0 +1,84 @@
+name = "snow"
+description = "Snowfall over a little village with warm windows"
+
+[sky]
+chars = [" ", " ", ".", "+"]
+colors = ["white", "white", "white dim", "white"]
+density = 0.015
+
+# '#'/'.' are windows; roofs and snow are white, walls red, trees green.
+[ground]
+height = 0.4
+gap = [0, 3]
+color = "white"
+colors = { "|" = "red", "^" = "green", "A" = "green", "!" = "yellow dim", "[" = "yellow", "]" = "yellow" }
+floor = "_"
+floor_color = "white bold"
+lights = { on = "#", off = ".", on_color = "yellow bold", off_color = "white dim", ratio = 0.6, rate = 1 }
+
+[[ground.tile]]
+art = '''
+    _||_
+   /    \
+  /______\
+  |.  .  |
+  |.  [] |
+'''
+
+[[ground.tile]]
+art = '''
+  /\
+ /__\
+ |. |
+'''
+
+[[ground.tile]]
+art = '''
+   _
+  /_\_
+ /____\
+ |. . |
+'''
+
+[[ground.tile]]
+art = '''
+  *
+ /^\
+/^^^\
+  !
+'''
+
+[[ground.tile]]
+art = '''
+ A
+/^\
+'''
+
+[[ground.tile]]
+art = '''
+ _
+(°)
+(:)
+'''
+
+[[actor]]
+name = "flake"
+motion = "fall"
+speed = [1.5, 3.5]
+sway = 1.0
+rate = 3
+max = 40
+start = 20
+palette = ["white bold", "cyan"]
+art = "*"
+
+[[actor]]
+name = "flake-small"
+motion = "fall"
+speed = [1, 2.5]
+sway = 0.6
+rate = 4
+max = 50
+start = 25
+color = "white"
+art = "."
