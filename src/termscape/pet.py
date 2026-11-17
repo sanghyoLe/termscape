@@ -50,6 +50,7 @@ class Pet:
         self.session = None
         self.window_size = DEFAULT_WINDOW
         self.fraction = None
+        self.exact_session = None
         self.state = "idle"
         self.state_t = 0.0
         self.stage = None
@@ -74,7 +75,9 @@ class Pet:
             self.window_size = size
         if isinstance(ev.get("context"), (int, float)):
             self.fraction = max(0.0, min(1.0, float(ev["context"])))
-        elif isinstance(ev.get("tokens"), (int, float)):
+            self.exact_session = session  # exact numbers win over token estimates from now on
+        elif isinstance(ev.get("tokens"), (int, float)) and (
+                self.exact_session is None or self.exact_session != session):
             if ev["tokens"] > self.window_size:  # must be a larger-context model
                 self.window_size = 1_000_000
             self.fraction = min(1.0, ev["tokens"] / self.window_size)

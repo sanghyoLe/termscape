@@ -50,7 +50,8 @@ class Events(TempHome):
         with open(events.log_path(), "a") as f:
             for ev in ({"t": 1, "event": "mine", "window": "srv:@1"},
                        {"t": 1, "event": "other", "window": "srv:@2"},
-                       {"t": 1, "event": "everyone"}):
+                       {"t": 1, "event": "everyone"},
+                       {"t": 1, "event": "agent-outside-tmux", "session": "s9", "source": "claude"}):
                 f.write(json.dumps(ev) + "\n")
             f.write('{"t": 1, "event": "half')  # not finished yet
         self.assertEqual([e["event"] for e in reader.poll()], ["mine", "everyone"])
@@ -84,6 +85,12 @@ class PetTest(unittest.TestCase):
         pet = Pet()
         pet.apply({"t": 0, "event": "done", "source": "codex", "tokens": 237500, "size": 475000})
         self.assertAlmostEqual(pet.fraction, 0.5)
+
+    def test_exact_context_beats_token_estimates(self):
+        pet = Pet()
+        pet.apply({"t": 0, "event": "context", "source": "claude", "session": "s", "context": 0.06})
+        pet.apply({"t": 1, "event": "working", "source": "claude", "session": "s", "tokens": 9000})
+        self.assertAlmostEqual(pet.fraction, 0.06)
 
     def test_tokens_beyond_default_window_assume_large_window(self):
         pet = Pet()

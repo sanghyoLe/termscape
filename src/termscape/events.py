@@ -1,7 +1,8 @@
 """A tiny event bus: writers append JSON lines to a log file, scenes tail it.
 
 Events carry the tmux window they came from, so a strip only reacts to what
-happens in its own window. Events sent from outside tmux reach every scene.
+happens in its own window. Agent events from outside tmux reach only scenes that
+also run outside tmux; manual pings without a session reach every scene.
 
 Record fields: t (unix time), event (name), window (or absent), plus optional
 source ("claude", "codex", ...), session, and context (0..1 fraction of the
@@ -67,8 +68,13 @@ class Reader:
         self.backlog = self.poll()
 
     def _wanted(self, ev):
+        """Scenes outside tmux hear everything. Scenes in a tmux window hear their own
+        window, plus window-less events that are not from an agent session (manual pings):
+        an agent running outside tmux belongs to no strip."""
         w = ev.get("window")
-        return self.window is None or w is None or w == self.window
+        if self.window is None or w == self.window:
+            return True
+        return w is None and not ev.get("session")
 
     def poll(self):
         try:
